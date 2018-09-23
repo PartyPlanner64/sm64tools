@@ -31,7 +31,7 @@ ranges:
    # start,       end,        type,     label
    - [0x00000000, 0x00000040, "header", "header"]
    - [0x00000040, 0x00001000, "bin", "boot"]
-   - [0x00001000, 0x000B2360, "asm", "main", 0x80001000]
+   - [0x00001000, 0x000B2360, "asm", "main", 0x80000400]
    - [0x000B2360, 0x000C2874, "bin", "bin_B2360"] # Some initial stuff
    - [0x000C2874, 0x000C3B04, "bin", "bin_C2874"] # Overlay info
    - [0x000C3B04, 0x000C93E0, "bin", "bin_C3B04"]
