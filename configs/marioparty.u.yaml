@@ -1,0 +1,636 @@
+# ROM splitter configuration file
+name: "Mario Party (U)"
+
+# checksums from ROM header offsets 0x10 and 0x14
+# used for auto configuration detection
+checksum1: 0x2829657E
+checksum2: 0xA0621877
+
+# base filename used for outputs (please, no spaces)
+basename: "marioparty.u"
+
+# ranges to split the ROM into
+# types:
+#   asm      - MIPS assembly block.  Symbol names are in 'labels' list below
+#   behavior - behavior script
+#   bin      - raw binary, usually data
+#   blast    - Blast Corps compressed blocks
+#   gzip     - gzip compressed blocks
+#   header   - ROM header block
+#   instrset - instrument set
+#   level    - level commands
+#   m64      - M64 music sequence bank
+#   mio0     - MIO0 compressed data block.  may have texture breakdown
+#   ptr      - RAM address or ROM offset pointer
+#
+#   textures types:
+#      rgba   - 32/16 bit RGBA (5-5-5-1/8-8-8-8)
+#      ia     - 16/8/4/1-bit greyscale
+#      skybox - grid of 32x32 16-bit RGBA
+ranges:
+   # start,       end,        type,     label
+   - [0x00000000, 0x00000040, "header", "header"]
+   - [0x00000040, 0x00001000, "bin", "boot"]
+   - [0x00001000, 0x000B2360, "asm", "main", 0x80001000]
+   - [0x000B2360, 0x000C2874, "bin", "bin_B2360"] # Some initial stuff
+   - [0x000C2874, 0x000C3B04, "bin", "bin_C2874"] # Overlay info
+   - [0x000C3B04, 0x000C93E0, "bin", "bin_C3B04"]
+   - [0x000C93E0, 0x000CDA50, "bin", "bin_C93E0"]
+
+   # begin overlays
+   # generated with PP64 console command
+   # PP64.utils.dump.printSceneN64Split()
+   - [0xCDA50, 0xD4C50, "asm", "overlay0_main", 0x800F65E0]
+   - [0xD4C50, 0xD51E0, "bin", "overlay0_rodata_bin"]
+   # overlay0 bss: 0x800FDD70 - 0x800FE520
+   - [0xD51E0, 0xDFDF0, "asm", "overlay1_main", 0x800F65E0]
+   - [0xDFDF0, 0xE02F0, "bin", "overlay1_rodata_bin"]
+   # overlay1 bss: 0x801016F0 - 0x80101AE0
+   - [0xE02F0, 0xE7E10, "asm", "overlay2_main", 0x800F65E0]
+   - [0xE7E10, 0xE8F60, "bin", "overlay2_rodata_bin"]
+   # overlay2 bss: 0x800FF250 - 0x800FFCF0
+   - [0xE8F60, 0xEE3F0, "asm", "overlay3_main", 0x800F65E0]
+   - [0xEE3F0, 0xEE9A0, "bin", "overlay3_rodata_bin"]
+   # overlay3 bss: 0x800FC020 - 0x800FC600
+   - [0xEE9A0, 0xF6750, "asm", "overlay4_main", 0x800F65E0]
+   - [0xF6750, 0xF6AB0, "bin", "overlay4_rodata_bin"]
+   # overlay4 bss: 0x800FE6F0 - 0x800FFB20
+   - [0xF6AB0, 0xFF0E0, "asm", "overlay5_main", 0x800F65E0]
+   - [0xFF0E0, 0xFF570, "bin", "overlay5_rodata_bin"]
+   # overlay5 bss: 0x800FF0A0 - 0x800FFA40
+   - [0xFF570, 0x10BA80, "asm", "overlay6_main", 0x800F65E0]
+   - [0x10BA80, 0x10CD10, "bin", "overlay6_rodata_bin"]
+   # overlay6 bss: 0x80103D80 - 0x8010B570
+   - [0x10CD10, 0x110460, "asm", "overlay7_main", 0x800F65E0]
+   - [0x110460, 0x110F90, "bin", "overlay7_rodata_bin"]
+   # overlay7 bss: 0x800FA860 - 0x800FA9C0
+   - [0x110F90, 0x113B20, "asm", "overlay8_main", 0x800F65E0]
+   - [0x113B20, 0x113DC0, "bin", "overlay8_rodata_bin"]
+   # overlay8 bss: 0x800F9410 - 0x800F94B0
+   - [0x113DC0, 0x1170E0, "asm", "overlay9_main", 0x800F65E0]
+   - [0x1170E0, 0x117210, "bin", "overlay9_rodata_bin"]
+   # overlay9 bss: 0x800F9A30 - 0x800F9B90
+   - [0x117210, 0x11C2A0, "asm", "overlay10_main", 0x800F65E0]
+   - [0x11C2A0, 0x11C810, "bin", "overlay10_rodata_bin"]
+   # overlay10 bss: 0x800FBBE0 - 0x800FC330
+   - [0x11C810, 0x1216F0, "asm", "overlay11_main", 0x800F65E0]
+   - [0x1216F0, 0x1217D0, "bin", "overlay11_rodata_bin"]
+   # overlay11 bss: 0x800FB5A0 - 0x800FB7A0
+   - [0x1217D0, 0x124FD0, "asm", "overlay12_main", 0x800F65E0]
+   - [0x124FD0, 0x1250D0, "bin", "overlay12_rodata_bin"]
+   # overlay12 bss: 0x800F9EE0 - 0x800FA750
+   - [0x1250D0, 0x12B7E0, "asm", "overlay13_main", 0x800F65E0]
+   - [0x12B7E0, 0x12BC20, "bin", "overlay13_rodata_bin"]
+   # overlay13 bss: 0x800FD130 - 0x800FD5D0
+   - [0x12BC20, 0x131A10, "asm", "overlay14_main", 0x800F65E0]
+   - [0x131A10, 0x131FA0, "bin", "overlay14_rodata_bin"]
+   # overlay14 bss: 0x800FC960 - 0x800FCA40
+   - [0x131FA0, 0x136F40, "asm", "overlay15_main", 0x800F65E0]
+   - [0x136F40, 0x137050, "bin", "overlay15_rodata_bin"]
+   # overlay15 bss: 0x800FB690 - 0x800FB750
+   - [0x137050, 0x13EE10, "asm", "overlay16_main", 0x800F65E0]
+   - [0x13EE10, 0x13EFB0, "bin", "overlay16_rodata_bin"]
+   # overlay16 bss: 0x800FE540 - 0x800FE760
+   - [0x13EFB0, 0x145CA0, "asm", "overlay17_main", 0x800F65E0]
+   - [0x145CA0, 0x146200, "bin", "overlay17_rodata_bin"]
+   # overlay17 bss: 0x800FD830 - 0x800FDDB0
+   - [0x146200, 0x149C40, "asm", "overlay18_main", 0x800F65E0]
+   - [0x149C40, 0x149E80, "bin", "overlay18_rodata_bin"]
+   # overlay18 bss: 0x800FA260 - 0x800FA460
+   - [0x149E80, 0x14E540, "asm", "overlay19_main", 0x800F65E0]
+   - [0x14E540, 0x14E940, "bin", "overlay19_rodata_bin"]
+   # overlay19 bss: 0x800FB0A0 - 0x800FC3C0
+   - [0x14E940, 0x152B20, "asm", "overlay20_main", 0x800F65E0]
+   - [0x152B20, 0x152BE0, "bin", "overlay20_rodata_bin"]
+   # overlay20 bss: 0x800FA880 - 0x800FAAF0
+   - [0x152BE0, 0x15E120, "asm", "overlay21_main", 0x800F65E0]
+   - [0x15E120, 0x15EAF0, "bin", "overlay21_rodata_bin"]
+   # overlay21 bss: 0x801024F0 - 0x801032A0
+   - [0x15EAF0, 0x165F10, "asm", "overlay22_main", 0x800F65E0]
+   - [0x165F10, 0x166220, "bin", "overlay22_rodata_bin"]
+   # overlay22 bss: 0x800FDD10 - 0x800FDD30
+   - [0x166220, 0x16BC00, "asm", "overlay23_main", 0x800F65E0]
+   - [0x16BC00, 0x16BD20, "bin", "overlay23_rodata_bin"]
+   # overlay23 bss: 0x800FC0E0 - 0x800FC290
+   - [0x16BD20, 0x1724D0, "asm", "overlay24_main", 0x800F65E0]
+   - [0x1724D0, 0x1738E0, "bin", "overlay24_rodata_bin"]
+   # overlay24 bss: 0x800FE1A0 - 0x800FEF10
+   - [0x1738E0, 0x177C30, "asm", "overlay25_main", 0x800F65E0]
+   - [0x177C30, 0x1784E0, "bin", "overlay25_rodata_bin"]
+   # overlay25 bss: 0x800FB1E0 - 0x800FB280
+   - [0x1784E0, 0x17E600, "asm", "overlay26_main", 0x800F65E0]
+   - [0x17E600, 0x17E710, "bin", "overlay26_rodata_bin"]
+   # overlay26 bss: 0x800FC810 - 0x800FCAC0
+   - [0x17E710, 0x1836C0, "asm", "overlay27_main", 0x800F65E0]
+   - [0x1836C0, 0x1837D0, "bin", "overlay27_rodata_bin"]
+   # overlay27 bss: 0x800FB6A0 - 0x800FB9B0
+   - [0x1837D0, 0x188280, "asm", "overlay28_main", 0x800F65E0]
+   - [0x188280, 0x188410, "bin", "overlay28_rodata_bin"]
+   # overlay28 bss: 0x800FB220 - 0x800FB2A0
+   - [0x188410, 0x1910D0, "asm", "overlay29_main", 0x800F65E0]
+   - [0x1910D0, 0x191700, "bin", "overlay29_rodata_bin"]
+   # overlay29 bss: 0x800FF8D0 - 0x800FFB00
+   - [0x191700, 0x197C50, "asm", "overlay30_main", 0x800F65E0]
+   - [0x197C50, 0x197E20, "bin", "overlay30_rodata_bin"]
+   # overlay30 bss: 0x800FCD00 - 0x800FD000
+   - [0x197E20, 0x19FAF0, "asm", "overlay31_main", 0x800F65E0]
+   - [0x19FAF0, 0x19FEE0, "bin", "overlay31_rodata_bin"]
+   # overlay31 bss: 0x800FE6A0 - 0x800FE8D0
+   - [0x19FEE0, 0x1A4E00, "asm", "overlay32_main", 0x800F65E0]
+   - [0x1A4E00, 0x1A4EB0, "bin", "overlay32_rodata_bin"]
+   # overlay32 bss: 0x800FB5B0 - 0x800FB900
+   - [0x1A4EB0, 0x1AA080, "asm", "overlay33_main", 0x800F65E0]
+   - [0x1AA080, 0x1AA2A0, "bin", "overlay33_rodata_bin"]
+   # overlay33 bss: 0x800FB9D0 - 0x800FBB30
+   - [0x1AA2A0, 0x1B3730, "asm", "overlay34_main", 0x800F65E0]
+   - [0x1B3730, 0x1B3E00, "bin", "overlay34_rodata_bin"]
+   # overlay34 bss: 0x80100140 - 0x80100C80
+   - [0x1B3E00, 0x1BCD20, "asm", "overlay35_main", 0x800F65E0]
+   - [0x1BCD20, 0x1BD640, "bin", "overlay35_rodata_bin"]
+   # overlay35 bss: 0x800FFE20 - 0x80100FE0
+   - [0x1BD640, 0x1C1D90, "asm", "overlay36_main", 0x800F65E0]
+   - [0x1C1D90, 0x1C1EB0, "bin", "overlay36_rodata_bin"]
+   # overlay36 bss: 0x800FAE50 - 0x800FAE70
+   - [0x1C1EB0, 0x1CBB80, "asm", "overlay37_main", 0x800F65E0]
+   - [0x1CBB80, 0x1CCCF0, "bin", "overlay37_rodata_bin"]
+   # overlay37 bss: 0x80101420 - 0x801024C0
+   - [0x1CCCF0, 0x1D3300, "asm", "overlay38_main", 0x800F65E0]
+   - [0x1D3300, 0x1D3990, "bin", "overlay38_rodata_bin"]
+   # overlay38 bss: 0x800FD280 - 0x800FD720
+   - [0x1D3990, 0x1D93B0, "asm", "overlay39_main", 0x800F65E0]
+   - [0x1D93B0, 0x1D9690, "bin", "overlay39_rodata_bin"]
+   # overlay39 bss: 0x800FC2E0 - 0x800FC6F0
+   - [0x1D9690, 0x1E0670, "asm", "overlay40_main", 0x800F65E0]
+   - [0x1E0670, 0x1E0A30, "bin", "overlay40_rodata_bin"]
+   # overlay40 bss: 0x800FD980 - 0x800FDD20
+   - [0x1E0A30, 0x1E8DD0, "asm", "overlay41_main", 0x800F65E0]
+   - [0x1E8DD0, 0x1E9440, "bin", "overlay41_rodata_bin"]
+   # overlay41 bss: 0x800FEFF0 - 0x800FF230
+   - [0x1E9440, 0x1F0BB0, "asm", "overlay42_main", 0x800F65E0]
+   - [0x1F0BB0, 0x1F0DA0, "bin", "overlay42_rodata_bin"]
+   # overlay42 bss: 0x800FDF40 - 0x800FE060
+   - [0x1F0DA0, 0x1F60F0, "asm", "overlay43_main", 0x800F65E0]
+   - [0x1F60F0, 0x1F62C0, "bin", "overlay43_rodata_bin"]
+   # overlay43 bss: 0x800FBB00 - 0x800FBBB0
+   - [0x1F62C0, 0x1FEF50, "asm", "overlay44_main", 0x800F65E0]
+   - [0x1FEF50, 0x1FF1E0, "bin", "overlay44_rodata_bin"]
+   # overlay44 bss: 0x800FF500 - 0x800FF5B0
+   - [0x1FF1E0, 0x206E40, "asm", "overlay45_main", 0x800F65E0]
+   - [0x206E40, 0x207040, "bin", "overlay45_rodata_bin"]
+   # overlay45 bss: 0x800FE440 - 0x800FE4D0
+   - [0x207040, 0x20EEB0, "asm", "overlay46_main", 0x800F65E0]
+   - [0x20EEB0, 0x20F570, "bin", "overlay46_rodata_bin"]
+   # overlay46 bss: 0x800FEB10 - 0x80100860
+   - [0x20F570, 0x218330, "asm", "overlay47_main", 0x800F65E0]
+   - [0x218330, 0x218510, "bin", "overlay47_rodata_bin"]
+   # overlay47 bss: 0x800FF580 - 0x80101CF0
+   - [0x218510, 0x221890, "asm", "overlay48_main", 0x800F65E0]
+   - [0x221890, 0x222320, "bin", "overlay48_rodata_bin"]
+   # overlay48 bss: 0x801003F0 - 0x80101BE0
+   - [0x222320, 0x22BF30, "asm", "overlay49_main", 0x800F65E0]
+   - [0x22BF30, 0x22C9E0, "bin", "overlay49_rodata_bin"]
+   # overlay49 bss: 0x80100CA0 - 0x80101300
+   - [0x22C9E0, 0x233EE0, "asm", "overlay50_main", 0x800F65E0]
+   - [0x233EE0, 0x2341E0, "bin", "overlay50_rodata_bin"]
+   # overlay50 bss: 0x800FDDE0 - 0x800FDFC0
+   - [0x2341E0, 0x23BDF0, "asm", "overlay51_main", 0x800F65E0]
+   - [0x23BDF0, 0x23CF40, "bin", "overlay51_rodata_bin"]
+   # overlay51 bss: 0x800FF340 - 0x80100140
+   - [0x23CF40, 0x241460, "asm", "overlay52_main", 0x800F65E0]
+   - [0x241460, 0x241740, "bin", "overlay52_rodata_bin"]
+   # overlay52 bss: 0x800FADE0 - 0x800FB1D0
+   - [0x241740, 0x241880, "asm", "overlay53_main", 0x800F65E0]
+   - [0x241880, 0x2418A0, "bin", "overlay53_rodata_bin"]
+   # overlay53 bss: 0x800F6740 - 0x800F6740
+   - [0x2418A0, 0x244B50, "asm", "overlay54_main", 0x800F65E0]
+   - [0x244B50, 0x2455C0, "bin", "overlay54_rodata_bin"]
+   # overlay54 bss: 0x800FA300 - 0x800FA380
+   - [0x2455C0, 0x246A60, "asm", "overlay55_main", 0x800F65E0]
+   - [0x246A60, 0x246DF0, "bin", "overlay55_rodata_bin"]
+   # overlay55 bss: 0x800F7E10 - 0x800F7EB0
+   - [0x246DF0, 0x248820, "asm", "overlay56_main", 0x800F65E0]
+   - [0x248820, 0x248F00, "bin", "overlay56_rodata_bin"]
+   # overlay56 bss: 0x800F86F0 - 0x800F8750
+   - [0x248F00, 0x24C0D0, "asm", "overlay57_main", 0x800F65E0]
+   - [0x24C0D0, 0x24C390, "bin", "overlay57_rodata_bin"]
+   # overlay57 bss: 0x800F9A70 - 0x800F9D50
+   - [0x24C390, 0x24F280, "asm", "overlay58_main", 0x800F65E0]
+   - [0x24F280, 0x24FA80, "bin", "overlay58_rodata_bin"]
+   # overlay58 bss: 0x800F9CD0 - 0x800FA060
+   - [0x24FA80, 0x251400, "asm", "overlay59_main", 0x800F65E0]
+   - [0x251400, 0x2518D0, "bin", "overlay59_rodata_bin"]
+   # overlay59 bss: 0x800F8430 - 0x800F8460
+   - [0x2518D0, 0x253A50, "asm", "overlay60_main", 0x800F65E0]
+   - [0x253A50, 0x254450, "bin", "overlay60_rodata_bin"]
+   # overlay60 bss: 0x800F9160 - 0x800F91B0
+   - [0x254450, 0x2569F0, "asm", "overlay61_main", 0x800F65E0]
+   - [0x2569F0, 0x256FF0, "bin", "overlay61_rodata_bin"]
+   # overlay61 bss: 0x800F9180 - 0x800F9200
+   - [0x256FF0, 0x259140, "asm", "overlay62_main", 0x800F65E0]
+   - [0x259140, 0x2592A0, "bin", "overlay62_rodata_bin"]
+   # overlay62 bss: 0x800F8890 - 0x800F88B0
+   - [0x2592A0, 0x259DD0, "asm", "overlay63_main", 0x800F65E0]
+   - [0x259DD0, 0x259EB0, "bin", "overlay63_rodata_bin"]
+   # overlay63 bss: 0x800F71F0 - 0x800F7200
+   - [0x259EB0, 0x25F920, "asm", "overlay64_main", 0x800F65E0]
+   - [0x25F920, 0x25FC70, "bin", "overlay64_rodata_bin"]
+   # overlay64 bss: 0x800FC3A0 - 0x800FCBA0
+   - [0x25FC70, 0x277320, "asm", "overlay65_main", 0x800F65E0]
+   - [0x277320, 0x278ED0, "bin", "overlay65_rodata_bin"]
+   # overlay65 bss: 0x8010F840 - 0x80110490
+   - [0x278ED0, 0x27C7C0, "asm", "overlay66_main", 0x800F65E0]
+   - [0x27C7C0, 0x27CB30, "bin", "overlay66_rodata_bin"]
+   # overlay66 bss: 0x800FA240 - 0x800FA280
+   - [0x27CB30, 0x2809F0, "asm", "overlay67_main", 0x800F65E0]
+   - [0x2809F0, 0x280C80, "bin", "overlay67_rodata_bin"]
+   # overlay67 bss: 0x800FA730 - 0x800FA7E0
+   - [0x280C80, 0x281BA0, "asm", "overlay68_main", 0x800F65E0]
+   - [0x281BA0, 0x281D40, "bin", "overlay68_rodata_bin"]
+   # overlay68 bss: 0x800F76A0 - 0x800F76B0
+   - [0x281D40, 0x2826F0, "asm", "overlay69_main", 0x800F65E0]
+   - [0x2826F0, 0x282820, "bin", "overlay69_rodata_bin"]
+   # overlay69 bss: 0x800F70C0 - 0x800F70D0
+   - [0x282820, 0x285110, "asm", "overlay70_main", 0x800F65E0]
+   - [0x285110, 0x285230, "bin", "overlay70_rodata_bin"]
+   # overlay70 bss: 0x800F8FF0 - 0x800F9000
+   - [0x285230, 0x285B30, "asm", "overlay71_main", 0x800F65E0]
+   - [0x285B30, 0x285B70, "bin", "overlay71_rodata_bin"]
+   # overlay71 bss: 0x800F6F20 - 0x800F6F30
+   - [0x285B70, 0x286650, "asm", "overlay72_main", 0x800F65E0]
+   - [0x286650, 0x286700, "bin", "overlay72_rodata_bin"]
+   # overlay72 bss: 0x800F7170 - 0x800F7190
+   - [0x286700, 0x2871F0, "asm", "overlay73_main", 0x800F65E0]
+   - [0x2871F0, 0x2872A0, "bin", "overlay73_rodata_bin"]
+   # overlay73 bss: 0x800F7180 - 0x800F71A0
+   - [0x2872A0, 0x2887A0, "asm", "overlay74_main", 0x800F65E0]
+   - [0x2887A0, 0x2888A0, "bin", "overlay74_rodata_bin"]
+   # overlay74 bss: 0x800F7BE0 - 0x800F7C10
+   - [0x2888A0, 0x289A80, "asm", "overlay75_main", 0x800F65E0]
+   - [0x289A80, 0x289BA0, "bin", "overlay75_rodata_bin"]
+   # overlay75 bss: 0x800F78E0 - 0x800F7910
+   - [0x289BA0, 0x28AAB0, "asm", "overlay76_main", 0x800F65E0]
+   - [0x28AAB0, 0x28ABA0, "bin", "overlay76_rodata_bin"]
+   # overlay76 bss: 0x800F75E0 - 0x800F75F0
+   - [0x28ABA0, 0x28BBE0, "asm", "overlay77_main", 0x800F65E0]
+   - [0x28BBE0, 0x28BC70, "bin", "overlay77_rodata_bin"]
+   # overlay77 bss: 0x800F76B0 - 0x800F76C0
+   - [0x28BC70, 0x28CED0, "asm", "overlay78_main", 0x800F65E0]
+   - [0x28CED0, 0x28CFF0, "bin", "overlay78_rodata_bin"]
+   # overlay78 bss: 0x800F7960 - 0x800F7970
+   - [0x28CFF0, 0x28DF40, "asm", "overlay79_main", 0x800F65E0]
+   - [0x28DF40, 0x28E030, "bin", "overlay79_rodata_bin"]
+   # overlay79 bss: 0x800F7620 - 0x800F7640
+   - [0x28E030, 0x28E570, "asm", "overlay80_main", 0x800F65E0]
+   - [0x28E570, 0x28E630, "bin", "overlay80_rodata_bin"]
+   # overlay80 bss: 0x800F6BE0 - 0x800F6BF0
+   - [0x28E630, 0x28EC50, "asm", "overlay81_main", 0x800F65E0]
+   - [0x28EC50, 0x28ECA0, "bin", "overlay81_rodata_bin"]
+   # overlay81 bss: 0x800F6C50 - 0x800F6C60
+   - [0x28ECA0, 0x290730, "asm", "overlay82_main", 0x800F65E0]
+   - [0x290730, 0x2908F0, "bin", "overlay82_rodata_bin"]
+   # overlay82 bss: 0x800F8230 - 0x800F8270
+   - [0x2908F0, 0x291280, "asm", "overlay83_main", 0x800F65E0]
+   - [0x291280, 0x291360, "bin", "overlay83_rodata_bin"]
+   # overlay83 bss: 0x800F7050 - 0x800F7060
+   - [0x291360, 0x291F10, "asm", "overlay84_main", 0x800F65E0]
+   - [0x291F10, 0x292020, "bin", "overlay84_rodata_bin"]
+   # overlay84 bss: 0x800F72A0 - 0x800F72B0
+   - [0x292020, 0x293160, "asm", "overlay85_main", 0x800F65E0]
+   - [0x293160, 0x293260, "bin", "overlay85_rodata_bin"]
+   # overlay85 bss: 0x800F7820 - 0x800F7830
+   - [0x293260, 0x293A30, "asm", "overlay86_main", 0x800F65E0]
+   - [0x293A30, 0x293A70, "bin", "overlay86_rodata_bin"]
+   # overlay86 bss: 0x800F6DF0 - 0x800F6E00
+   - [0x293A70, 0x295350, "asm", "overlay87_main", 0x800F65E0]
+   - [0x295350, 0x295450, "bin", "overlay87_rodata_bin"]
+   # overlay87 bss: 0x800F7FC0 - 0x800F7FE0
+   - [0x295450, 0x295450, "asm", "overlay88_main", 0x800F65E0]
+   - [0x295450, 0x295450, "bin", "overlay88_rodata_bin"]
+   # overlay88 bss: 0x800F65E0 - 0x800F65E0
+   - [0x295450, 0x295D40, "asm", "overlay89_main", 0x800F65E0]
+   - [0x295D40, 0x295E40, "bin", "overlay89_rodata_bin"]
+   # overlay89 bss: 0x800F6FD0 - 0x800F6FE0
+   - [0x295E40, 0x296A60, "asm", "overlay90_main", 0x800F65E0]
+   - [0x296A60, 0x296B70, "bin", "overlay90_rodata_bin"]
+   # overlay90 bss: 0x800F7310 - 0x800F7320
+   - [0x296B70, 0x297B20, "asm", "overlay91_main", 0x800F65E0]
+   - [0x297B20, 0x297BE0, "bin", "overlay91_rodata_bin"]
+   # overlay91 bss: 0x800F7650 - 0x800F7660
+   - [0x297BE0, 0x297F90, "asm", "overlay92_main", 0x800F65E0]
+   - [0x297F90, 0x297FB0, "bin", "overlay92_rodata_bin"]
+   # overlay92 bss: 0x800F69B0 - 0x800F69C0
+   - [0x297FB0, 0x298A30, "asm", "overlay93_main", 0x800F65E0]
+   - [0x298A30, 0x298AE0, "bin", "overlay93_rodata_bin"]
+   # overlay93 bss: 0x800F7110 - 0x800F7120
+   - [0x298AE0, 0x29A2C0, "asm", "overlay94_main", 0x800F65E0]
+   - [0x29A2C0, 0x29A400, "bin", "overlay94_rodata_bin"]
+   # overlay94 bss: 0x800F7F00 - 0x800F7F10
+   - [0x29A400, 0x29AA80, "asm", "overlay95_main", 0x800F65E0]
+   - [0x29AA80, 0x29AB30, "bin", "overlay95_rodata_bin"]
+   # overlay95 bss: 0x800F6D10 - 0x800F6D20
+   - [0x29AB30, 0x29B280, "asm", "overlay96_main", 0x800F65E0]
+   - [0x29B280, 0x29B410, "bin", "overlay96_rodata_bin"]
+   # overlay96 bss: 0x800F6EC0 - 0x800F6ED0
+   - [0x29B410, 0x2A1D30, "asm", "overlay97_main", 0x800F65E0]
+   - [0x2A1D30, 0x2A2500, "bin", "overlay97_rodata_bin"]
+   # overlay97 bss: 0x800FD6D0 - 0x800FD7A0
+   - [0x2A2500, 0x2A8C50, "asm", "overlay98_main", 0x800F65E0]
+   - [0x2A8C50, 0x2A9970, "bin", "overlay98_rodata_bin"]
+   # overlay98 bss: 0x800FDA50 - 0x800FDB90
+   - [0x2A9970, 0x2B0670, "asm", "overlay99_main", 0x800F65E0]
+   - [0x2B0670, 0x2B1670, "bin", "overlay99_rodata_bin"]
+   # overlay99 bss: 0x800FE2E0 - 0x800FE300
+   - [0x2B1670, 0x2B7150, "asm", "overlay100_main", 0x800F65E0]
+   - [0x2B7150, 0x2B74A0, "bin", "overlay100_rodata_bin"]
+   # overlay100 bss: 0x800FC410 - 0x800FCC10
+   - [0x2B74A0, 0x2BA290, "asm", "overlay101_main", 0x800F65E0]
+   - [0x2BA290, 0x2BA4C0, "bin", "overlay101_rodata_bin"]
+   # overlay101 bss: 0x800F9600 - 0x800F9640
+   - [0x2BA4C0, 0x2BA9B0, "asm", "overlay102_main", 0x800F65E0]
+   - [0x2BA9B0, 0x2BA9E0, "bin", "overlay102_rodata_bin"]
+   # overlay102 bss: 0x800F6B00 - 0x800F6B10
+   - [0x2BA9E0, 0x2BB350, "asm", "overlay103_main", 0x800F65E0]
+   - [0x2BB350, 0x2BB390, "bin", "overlay103_rodata_bin"]
+   # overlay103 bss: 0x800F6F90 - 0x800F79A0
+   - [0x2BB390, 0x2BB5B0, "asm", "overlay104_main", 0x800F65E0]
+   - [0x2BB5B0, 0x2BB5C0, "bin", "overlay104_rodata_bin"]
+   # overlay104 bss: 0x800F6810 - 0x800F6810
+   - [0x2BB5C0, 0x2BE910, "asm", "overlay105_main", 0x800F65E0]
+   - [0x2BE910, 0x2BF1A0, "bin", "overlay105_rodata_bin"]
+   # overlay105 bss: 0x800FA1C0 - 0x800FA210
+   - [0x2BF1A0, 0x2CA400, "asm", "overlay106_main", 0x800F65E0]
+   - [0x2CA400, 0x2CAA00, "bin", "overlay106_rodata_bin"]
+   # overlay106 bss: 0x80101E40 - 0x80102620
+   - [0x2CAA00, 0x2D42E0, "asm", "overlay107_main", 0x800F65E0]
+   - [0x2D42E0, 0x2D4830, "bin", "overlay107_rodata_bin"]
+   # overlay107 bss: 0x80100410 - 0x80100700
+   - [0x2D4830, 0x2D6BF0, "asm", "overlay108_main", 0x800F65E0]
+   - [0x2D6BF0, 0x2D6FC0, "bin", "overlay108_rodata_bin"]
+   # overlay108 bss: 0x800F8D70 - 0x800F8E70
+   - [0x2D6FC0, 0x2D92A0, "asm", "overlay109_main", 0x800F65E0]
+   - [0x2D92A0, 0x2D9570, "bin", "overlay109_rodata_bin"]
+   # overlay109 bss: 0x800F8B90 - 0x800F8BB0
+   - [0x2D9570, 0x2DAE30, "asm", "overlay110_main", 0x800F65E0]
+   - [0x2DAE30, 0x2DB2A0, "bin", "overlay110_rodata_bin"]
+   # overlay110 bss: 0x800F8310 - 0x800F8330
+   - [0x2DB2A0, 0x2F3190, "asm", "overlay111_main", 0x800F65E0]
+   - [0x2F3190, 0x2F40C0, "bin", "overlay111_rodata_bin"]
+   # overlay111 bss: 0x8010F400 - 0x8010F780
+   - [0x2F40C0, 0x2F6F70, "asm", "overlay112_main", 0x800F65E0]
+   - [0x2F6F70, 0x2F6FB0, "bin", "overlay112_rodata_bin"]
+   # overlay112 bss: 0x800F94D0 - 0x800F94E0
+   - [0x2F6FB0, 0x2F7060, "asm", "overlay113_main", 0x800F65E0]
+   - [0x2F7060, 0x2F7080, "bin", "overlay113_rodata_bin"]
+   # overlay113 bss: 0x800F66B0 - 0x800F66B0
+   - [0x2F7080, 0x2F8B50, "asm", "overlay114_main", 0x800F65E0]
+   - [0x2F8B50, 0x2F9040, "bin", "overlay114_rodata_bin"]
+   # overlay114 bss: 0x800F85A0 - 0x800F85D0
+   - [0x2F9040, 0x2F95F0, "asm", "overlay115_main", 0x800F65E0]
+   - [0x2F95F0, 0x2F96E0, "bin", "overlay115_rodata_bin"]
+   # overlay115 bss: 0x800F6C80 - 0x800F6CA0
+   - [0x2F96E0, 0x2F9FE0, "asm", "overlay116_main", 0x800F65E0]
+   - [0x2F9FE0, 0x2FA120, "bin", "overlay116_rodata_bin"]
+   # overlay116 bss: 0x800F7020 - 0x800F7040
+   - [0x2FA120, 0x2FA760, "asm", "overlay117_main", 0x800F65E0]
+   - [0x2FA760, 0x2FA8A0, "bin", "overlay117_rodata_bin"]
+   # overlay117 bss: 0x800F6D60 - 0x800F6D70
+   - [0x2FA8A0, 0x2FAC80, "asm", "overlay118_main", 0x800F65E0]
+   - [0x2FAC80, 0x2FADB0, "bin", "overlay118_rodata_bin"]
+   # overlay118 bss: 0x800F6AF0 - 0x800F6AF0
+   - [0x2FADB0, 0x2FD7E0, "asm", "overlay119_main", 0x800F65E0]
+   - [0x2FD7E0, 0x2FD940, "bin", "overlay119_rodata_bin"]
+   # overlay119 bss: 0x800F9170 - 0x800F9210
+   - [0x2FD940, 0x300430, "asm", "overlay120_main", 0x800F65E0]
+   - [0x300430, 0x3005B0, "bin", "overlay120_rodata_bin"]
+   # overlay120 bss: 0x800F9250 - 0x800F9330
+   - [0x3005B0, 0x301410, "asm", "overlay121_main", 0x800F65E0]
+   - [0x301410, 0x3014C0, "bin", "overlay121_rodata_bin"]
+   # overlay121 bss: 0x800F74F0 - 0x800F7510
+   - [0x3014C0, 0x302C90, "asm", "overlay122_main", 0x800F65E0]
+   - [0x302C90, 0x303E70, "bin", "overlay122_rodata_bin"]
+   # overlay122 bss: 0x800F8F90 - 0x800F9240
+   - [0x303E70, 0x308890, "asm", "overlay123_main", 0x800F65E0]
+   - [0x308890, 0x308A50, "bin", "overlay123_rodata_bin"]
+   # overlay123 bss: 0x800FB1C0 - 0x800FB2B0
+   - [0x308A50, 0x30C440, "asm", "overlay124_main", 0x800F65E0]
+   - [0x30C440, 0x30C540, "bin", "overlay124_rodata_bin"]
+   # overlay124 bss: 0x800FA0D0 - 0x800FA590
+   - [0x30C540, 0x30F080, "asm", "overlay125_main", 0x800F65E0]
+   - [0x30F080, 0x30F1B0, "bin", "overlay125_rodata_bin"]
+   # overlay125 bss: 0x800F9250 - 0x800F92C0
+   - [0x30F1B0, 0x310CA0, "asm", "overlay126_main", 0x800F65E0]
+   - [0x310CA0, 0x311E90, "bin", "overlay126_rodata_bin"]
+   # overlay126 bss: 0x800F92C0 - 0x800F95E0
+   - [0x311E90, 0x3127C0, "asm", "overlay127_main", 0x800F65E0]
+   - [0x3127C0, 0x312850, "bin", "overlay127_rodata_bin"]
+   # overlay127 bss: 0x800F6FA0 - 0x800F6FD0
+   - [0x312850, 0x314730, "asm", "overlay128_main", 0x800F65E0]
+   - [0x314730, 0x314950, "bin", "overlay128_rodata_bin"]
+   # overlay128 bss: 0x800F86E0 - 0x800F8760
+   - [0x314950, 0x316350, "asm", "overlay129_main", 0x800F65E0]
+   - [0x316350, 0x316440, "bin", "overlay129_rodata_bin"]
+   # overlay129 bss: 0x800F80D0 - 0x800F81E0
+   - [0x316440, 0x3177A0, "asm", "overlay130_main", 0x800F65E0]
+   - [0x3177A0, 0x317980, "bin", "overlay130_rodata_bin"]
+   # overlay130 bss: 0x800F7B20 - 0x800F7B20
+   - [0x317980, 0x31AC50, "asm", "overlay131_main", 0x800F65E0]
+   - [0x31AC50, 0x31BFE0, "bin", "overlay131_rodata_bin"]
+   # overlay131 bss: 0x800FAC40 - 0x800FAE20
+   # end overlays
+
+   # Data before the fs?
+   - [0x0031BFE0, 0x0031C7E0, "bin", "bin_31BFE0"]
+
+   # Main filesystem
+   - [0x0031C7E0, 0x00FCB860, "bin", "bin_mainfs"]
+
+   # Strings table
+   - [0x00FCB860, 0x00FE2310, "bin", "bin_strings"]
+
+   # HVQ filesystem
+   - [0x00FE2310, 0x015396A0, "bin", "bin_hvq"]
+
+   # Audio
+   - [0x015396A0, 0x01CED490, "bin", "bin_hvq"]
+
+   # ROM padding
+   - [0x01CED490, 0x02000000, "bin", "bin_hvq"]
+
+# Labels for functions or data memory addresses
+# All label addresses are RAM addresses
+# Order does not matter
+# A select few taken from
+# https://github.com/PartyPlanner64/symbols/blob/master/MarioParty1U.sym
+labels:
+   - [0x800145B0, "ReadMainFS"]
+   - [0x80014730, "FreeMainFS"]
+   - [0x80014750, "FreeMainFS"]
+   - [0x8001745C, "DMA"]
+   - [0x80017528, "LoadFormFile"]
+   - [0x8001758C, "GetRandomByte"]
+   - [0x800175C0, "LoadOverlay"]
+   - [0x800177F4, "ReadImgPackand"]
+   - [0x8001B290, "ParseObjType10"]
+   - [0x8001C2E8, "FindFormEntry"]
+   - [0x8001D934, "Convert3DTo2D"]
+   - [0x8001E00C, "ImgPackrelated"]
+   - [0x80023C14, "LoadFormBinary"]
+   - [0x8003B680, "MakePermHeap"]
+   - [0x8003B6A4, "MallocPerm"]
+   - [0x8003B6C8, "FreePerm"]
+   - [0x8003B750, "MakeTempHeap"]
+   - [0x8003B774, "MallocTemp"]
+   - [0x8003B798, "FreeTemp"]
+   - [0x8003C14C, "DirectionPrompt"]
+   - [0x8004A394, "HVQDecode"]
+   - [0x8004BDFC, "BoardDefInit"]
+   - [0x8004C1EC, "GetSpaceData"]
+   - [0x8004C204, "GetAbsSpaceIndexFromChainSpaceIndex"]
+   - [0x8004C230, "GetChainLength"]
+   - [0x8004C24C, "GetChainSpaceIndexFromAbsSpaceIndex"]
+   - [0x8004C48C, "SetSpaceType"]
+   - [0x8004C900, "EventTableHydrate"]
+   - [0x8004C968, "ExecuteEventForSpace"]
+   - [0x8004CB2C, "SetCurrentSpaceIndex"]
+   - [0x8004CB34, "GetCurrentSpaceIndex"]
+   - [0x8004CF44, "SetPlayerBlue"]
+   - [0x8004CF4C, "SetPlayerRed"]
+   - [0x8004CF54, "SetPlayerGreen"]
+   - [0x8004D008, "GetTurnsElapsed"]
+   - [0x8004D7D8, "SetPlayerOntoChain"]
+   - [0x8004D844, "SetNextChainAndSpace"]
+   - [0x8004D930, "CreateTextWindow"]
+   - [0x8004D9D8, "ShowTextWindow"]
+   - [0x8004DAD0, "HideTextWindow"]
+   - [0x8004DE64, "WaitForTextConfirmation"]
+   - [0x80052A80, "GetCurrentPlayerIndex"]
+   - [0x80052A8C, "GetPlayerStruct"]
+   - [0x80052ACC, "PlayerIsCurrent"]
+   - [0x80052B20, "PlayerIsCPU"]
+   - [0x80052B48, "AdjustPlayerCoins"]
+   - [0x80052BB8, "PlayerHasCoins"]
+   - [0x80056A08, "SetupDKBoard"]
+   - [0x80058750, "ExecBoardScene"]
+   - [0x80059798, "IsBoardFeatureDisabled"]
+   - [0x800597DC, "SetBoardFeatureEnabled"]
+   - [0x8005982C, "SetBoardFeatureDisabled"]
+   - [0x80059880, "MakeHeap"]
+   - [0x800598A0, "Malloc"]
+   - [0x8005992C, "Free"]
+   - [0x80059B00, "Ensure16"]
+   - [0x8005B75C, "StringLen"]
+   - [0x8005B7E8, "LoadString"]
+   - [0x8005B838, "FreeString"]
+   - [0x8005DC28, "InitProcess"]
+   - [0x8005DD90, "EndProcess"]
+   - [0x800602AC, "PlaySound"]
+   - [0x80062088, "ReadFromRom"]
+   - [0x800622BC, "DrawDebugText"]
+   - [0x80063550, "SleepProcess"]
+   - [0x800635B4, "SleepVProcess"]
+   - [0x8006D7D8, "LoadStringIntoWindow"]
+   - [0x8006E070, "SetTextCharsPerFrame"]
+   - [0x8007F54C, "HVQDecodeInner"]
+   - [0x8008C040, "bcopy"]
+   - [0x8008C360, "bzero"]
+   - [0x8008C400, "strchr"]
+   - [0x8008C45C, "memcpy"]
+   - [0x8008C438, "strlen"]
+   - [0x8008C490, "sprintf"]
+   - [0x8008C520, "rmonPrintf"]
+   - [0x8008C534, "osSyncPrintf"]
+
+# Might want some of these data labels?
+# 800C1C74,data,dma_table
+# 800C4350,data,model_info
+# 800C5490,data,character_anim_pointers?
+# 800C597A,u16,cur_board_scene_state,Determines how the board scene starts up when (re)loaded
+# 800CB060,data,jt_spacetype_to_turneffect,Jump table for space type to turn effect
+# 800D12F0,data,main_fs_rom_location
+# 800D12F4,data,main_fs_dir_count,Number of directories in main filesystem
+# 800D1300,data,main_fs_cur_dir_file_count,Count of files in directory being accessed
+# 800D6030,data,perm_heap_addr,Address of permanent heap
+# 800D6040,data,temp_heap_addr,Address of temporary heap
+# 800D8108,data,space_data,pointer to space data parsed from board def file
+# 800D8110,data,chain_data_addr,pointer to array of chain lengths and indices
+# 800D8380,data,player_related?,cleared with 0x20 entries
+# 800ECB24,data,debug_font_color,16 color values
+# 800ED142,u16,bank_coins,Coins in bank
+# 800ED144,u16,bank_stars,Stars in bank
+# 800ED148,u16,enabled_feature_flags
+# 800ED4B0,data,string_data_cache?,Something to do with windows or strings
+# 800ED5C6,u16,total_turns,Total game turns
+# 800ED5C8,u16,remaining_turns,Remaining turns
+# 800ED5DC,u16,current_player_index,Player who's turn is active
+# 800ED5E0,u16,current_space_index?
+# 800F09F4,u32,scene,Current scene
+# 800F2CDC,u16,hidden_block_space_index,Space index of hidden block
+# 800F32B4,u8,p1_char,Player 1 character
+# 800F32B8,u16,p1_coins,Player 1 coin count
+# 800F32BA,s16,p1_minigame_coins,Player 1 coins in current Mini-Game
+# 800F32BC,u16,p1_stars,Player 1 star count
+# 800F32BE,u16,p1_cur_chain_index,Player 1 current chain index
+# 800F32C0,u16,p1_cur_space_index,Player 1 current space index
+# 800F32C2,u16,p1_next_chain_index,Player 1 next chain index
+# 800F32C4,u16,p1_next_space_index,Player 1 next space index
+# 800F32C6,u8,p1_poisoned,Player 1 poisoned boolean
+# 800F32C7,u8,p1_turn_status,Color based on type of space landed on
+# 800F32D4,u16,p1_total_minigame_coins,Player 1 total Mini-Game coins collected
+# 800F32D8,u8,p1_total_happening_spaces,Player 1 total number of Happening Spaces landed on
+# 800F32D9,u8,p1_total_red_spaces,Player 1 total number of red spaces landed on
+# 800F32DA,u8,p1_total_blue_spaces,Player 1 total number of blue spaces landed on
+# 800F32DB,u8,p1_total_minigame_spaces,Player 1 total number of Mini-Game spaces landed on
+# 800F32DC,u8,p1_total_chance_spaces,Player 1 total number of Chance Time spaces landed on
+# 800F32DD,u8,p1_total_mushroom_spaces,Player 1 total number of Mushroom spaces landed on
+# 800F32DE,u8,p1_total_bowser_spaces,Player 1 total number of Bowser spaces landed on
+# 800F32E4,u8,p2_char,Player 2 character
+# 800F32E8,u16,p2_coins,Player 2 coin count
+# 800F32EA,s16,p2_minigame_coins,Player 2 coins in current Mini-Game
+# 800F32EC,u16,p2_stars,Player 2 star count
+# 800F32EE,u16,p2_cur_chain_index,Player 2 current chain index
+# 800F32F0,u16,p2_cur_space_index,Player 2 current space index
+# 800F32F2,u16,p2_next_chain_index,Player 2 next chain index
+# 800F32F4,u16,p2_next_space_index,Player 2 next space index
+# 800F32F6,u8,p2_poisoned,Player 2 poisoned boolean
+# 800F32F7,u8,p2_turn_status,Color based on type of spaced landed on
+# 800F3308,u8,p2_total_happening_spaces,Player 2 total number of Happening spaces landed on
+# 800F3309,u8,p2_total_red_spaces,Player 2 total number of red spaces landed on
+# 800F330A,u8,p2_total_blue_spaces,Player 2 total number of blue spaces landed on
+# 800F330B,u8,p2_total_minigame_spaces,Player 2 total number of Mini-Game spaces landed on
+# 800F330C,u8,p2_total_chance_spaces,Player 2 total number of Chance Time spaces landed on
+# 800F330D,u8,p2_total_mushroom_spaces,Player 2 total number of Mushroom spaces landed on
+# 800F330E,u8,p2_total_bowser_spaces,Player 2 total number of Bowser spaces landed on
+# 800F3314,u8,p3_char,Player 3 character
+# 800F3318,u16,p3_coins,Player 3 coin count
+# 800F331A,s16,p3_minigame_coins,Player 3 coins in current Mini-Game
+# 800F331C,u16,p3_stars,Player 3 star count
+# 800F331E,u16,p3_cur_chain_index,Player 3 current chain index
+# 800F3320,u16,p3_cur_space_index,Player 3 current space index
+# 800F3322,u16,p3_next_chain_index,Player 3 next chain index
+# 800F3324,u16,p3_next_space_index,Player 3 next space index
+# 800F3326,u8,p3_poisoned,Player 3 poisoned boolean
+# 800F3327,u8,p3_turn_status,Color based on type of space landed on
+# 800F3338,u8,p3_total_happening_spaces,Player 3 total number of Happening spaces landed on
+# 800F3339,u8,p3_total_red_spaces,Player 3 total number of red spaces landed on
+# 800F333A,u8,p3_total_blue_spaces,Player 3 total number of blue spaces landed on
+# 800F333B,u8,p3_total_minigame_spaces,Player 3 total number of Mini-Game spaces landed on
+# 800F333C,u8,p3_total_chance_spaces,Player 3 total number of Chance Time spaces landed on
+# 800F333D,u8,p3_total_mushroom_spaces,Player 3 total number of Mushroom spaces landed on
+# 800F333E,u8,p3_total_bowser_spaces,Player 3 total number of Bowser spaces landed on
+# 800F3344,u8,p4_char,Player 4 character
+# 800F3348,u16,p4_coins,Player 4 coin count
+# 800F334A,s16,p4_minigame_coins,Player 4 coins in current Mini-Game
+# 800F334C,u16,p4_stars,Player 4 star count
+# 800F334E,u16,p4_cur_chain_index,Player 4 current chain index
+# 800F3350,u16,p4_cur_space_index,Player 4 current space index
+# 800F3352,u16,p4_next_chain_index,Player 4 next chain index
+# 800F3354,u16,p4_next_space_index,Player 4 next space index
+# 800F3356,u8,p4_poisoned,Player 4 poisoned boolean
+# 800F3357,u8,p4_turn_status,Color based on type of space landed on
+# 800F3368,u8,p4_total_happening_spaces,Player 4 total number of Happening spaces landed on
+# 800F3369,u8,p4_total_red_spaces,Player 4 total number of red spaces landed on
+# 800F336A,u8,p4_total_blue_spaces,Player 4 total number of blue spaces landed on
+# 800F336B,u8,p4_total_minigame_spaces,Player 4 total number of Mini-Game spaces landed on
+# 800F336C,u8,p4_total_chance_spaces,Player 4 total number of Chance Time spaces landed on
+# 800F336D,u8,p4_total_mushroom_spaces,Player 4 total number of Mushroom spaces landed on
+# 800F336E,u8,p4_total_bowser_spaces,Player 4 total number of Bowser spaces landed on
